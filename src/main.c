@@ -81,6 +81,7 @@ int main(int argc, char *argv[]) {
     ecs_set(world, camera, EcsRotation3, {0.7});
 
     ecs_set(world, 0, EcsCanvas, {
+        .title = "Flecs Bouncing Boxes",
         .width = 1400,
         .height = 1000,
         .background_color = {0, 0, 0},
