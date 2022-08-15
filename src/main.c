@@ -1,21 +1,17 @@
 #include <bouncing_boxes.h>
-
-static
-bool dice(float chance) {
-    return (float)rand() > ((float)RAND_MAX / chance);
-}
-
-static
-float randf() {
-    return (float)rand() / (float)RAND_MAX;
-}
-
 #define BOX_BRIGHTNESS (1.5)
 #define BOX_X_COUNT (400.0)
 #define BOX_Y_COUNT (400.0)
 #define BOX_SIZE (1.5)
 
-static
+bool dice(float chance) {
+    return (float)rand() > ((float)RAND_MAX / chance);
+}
+
+float randf() {
+    return (float)rand() / (float)RAND_MAX;
+}
+
 void Bounce(ecs_iter_t *it) {
     EcsPosition3 *p = ecs_field(it, EcsPosition3, 1);
     EcsVelocity3 *v = ecs_field(it, EcsVelocity3, 2);
@@ -26,7 +22,6 @@ void Bounce(ecs_iter_t *it) {
         float y = p[i].y;
         float lt = y < 0;
         p[i].y = lt * (y + it->delta_time * v[i].y);
-
         v[i].y += 20 * it->delta_time;
 
         c[i].r = glm_max(0.96 * c[i].r, 0.0);
@@ -58,11 +53,9 @@ int main(int argc, char *argv[]) {
     ECS_IMPORT(world, FlecsComponentsPhysics);
     ECS_IMPORT(world, FlecsComponentsGraphics);
     ECS_IMPORT(world, FlecsComponentsGui);
-    ECS_IMPORT(world, FlecsSystemsTransform);
     ECS_IMPORT(world, FlecsSystemsSokol);
     ECS_IMPORT(world, FlecsGame);
 
-    /* The system that makes the squares bounce */
     ECS_SYSTEM(world, Bounce, EcsOnUpdate,
         flecs.components.transform.Position3,
         flecs.components.physics.Velocity3,
@@ -72,8 +65,7 @@ int main(int argc, char *argv[]) {
         .lookat = {0.0, 0.0, 5.0},
         .up = {0.0, -1.0, 0.0},
         .fov = 20,
-        .near_ = 1.0,
-        .far_ = 1000.0
+        .near_ = 1.0, .far_ = 1000.0
     });
 
     ecs_add(world, camera, EcsCameraController);
@@ -82,8 +74,7 @@ int main(int argc, char *argv[]) {
 
     ecs_set(world, 0, EcsCanvas, {
         .title = "Flecs Bouncing Boxes",
-        .width = 1400,
-        .height = 1000,
+        .width = 1400, .height = 1000,
         .background_color = {0, 0, 0},
         .camera = camera,
         .fog_density = 5.0
@@ -103,9 +94,5 @@ int main(int argc, char *argv[]) {
         }
     }   
 
-    return ecs_app_run(world, &(ecs_app_desc_t){
-        .target_fps = 60, 
-        .enable_rest = true,
-        .enable_monitor = true
-    });
+    return ecs_app_run(world, &(ecs_app_desc_t){ .target_fps = 60 });
 }
