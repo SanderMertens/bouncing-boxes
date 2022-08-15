@@ -1,5 +1,5 @@
 # bouncing boxes
-Simple example that renders bouncing boxes.
+Simple example that renders bouncing boxes. Live demo @ https://www.flecs.dev/bouncing-boxes/etc/
 
 ![image](etc/img/bouncing_boxes.png)
 
