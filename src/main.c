@@ -1,5 +1,5 @@
 #include <bouncing_boxes.h>
-#define BOX_BRIGHTNESS (1.5)
+#define BOX_BRIGHTNESS (2.5)
 #define BOX_X_COUNT (400.0)
 #define BOX_Y_COUNT (400.0)
 #define BOX_SIZE (1.5)
@@ -94,5 +94,9 @@ int main(int argc, char *argv[]) {
         }
     }   
 
-    return ecs_app_run(world, &(ecs_app_desc_t){ .target_fps = 60 });
+    return ecs_app_run(world, &(ecs_app_desc_t){ 
+        .target_fps = 60,
+        .enable_rest = true,
+        .enable_monitor = true
+    });
 }
